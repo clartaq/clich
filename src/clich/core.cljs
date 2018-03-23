@@ -1,7 +1,10 @@
+;;;;
+;;;; Clich is a very simple Rich Text Editor written in ClojureScript.
+;;;;
+
 (ns clich.core
-  (:require
-    [cljs.pprint :as pp]
-    [reagent.core :as r]))
+  (:require [cljs.pprint :as pp]
+            [reagent.core :as r]))
 
 ;;;
 ;;; Utilities.
@@ -42,7 +45,7 @@
 ;;; The editor.
 ;;;
 
-; The actions are in a vector so they can be kept in order.
+; The actions associated with the toolbar buttons.
 (def actions [{:icon    "<b>B</b>"
                :title   "Bold"
                :state   #(query-command-state "bold")
@@ -86,15 +89,14 @@
               {:icon    "&#128279;"
                :title   "Link"
                :onclick #(let [url (.prompt js/window "Enter the link URL")]
-                           (when url
-                             (exec "createLink" url)))}
+                           (when url (exec "createLink" url)))}
               {:icon    "&#128247;"
                :title   "Image"
                :onclick #(let [url (.prompt js/window "Enter the image URL")]
-                           (when url
-                             (exec "insertImage" url)))}])
+                           (when url (exec "insertImage" url)))}])
 
-(defn build-button
+(defn build-toolbar-button
+  "Create and initialize a toolbar button and return it."
   [ed-ele m]
   (let [b (.createElement js/document "button")]
     (set! (.-type b) "button")
@@ -110,26 +112,18 @@
       (set! (.-onclick b) (:onclick m)))
     b))
 
-(defn add-buttons-to-toolbar
+(defn init-toolbar
+  "Initialize the toolbar by adding buttons to it."
   [ed-ele tb-ele]
   (doseq [m actions]
-    (let [btn (build-button ed-ele m)]
+    (let [btn (build-toolbar-button ed-ele m)]
       (.appendChild tb-ele btn))))
 
-(defn init-toolbar
-  [ed-ele tb-ele]
-  ;(add-text! "the-toolbar" "This is the toolbar.")
-  ; (.appendChild (by-id "the-toolbar") (build-button :underline))
-  (add-buttons-to-toolbar ed-ele tb-ele)
-  )
-
 (defn init-clich-editor
+  "The editor has been rendered by this point. Initialize it's parts."
   [settings]
-  (let [tb-ele (by-id "the-toolbar")
-        ed-ele (by-id "the-editor")]
-    (log (str "tb-ele:" (if tb-ele
-                          tb-ele
-                          "nil") ", ed-ele:" ed-ele))
+  (let [tb-ele (by-id (:toolbar-div-id settings))
+        ed-ele (by-id (:editor-div-id settings))]
     (when tb-ele
       (init-toolbar ed-ele tb-ele))
     (set! (.-contentEditable ed-ele) true)
@@ -138,55 +132,45 @@
                                ; ok, the inp.target is a div element
                                (let [first-child (.-firstChild (.-target inp))]
                                  (if (and first-child (= (.-nodeType first-child) 3))
-                                   ; do this
-                                   (exec "formatBlock" (str "<" (:default-paragraph-separator settings) ">"))
-                                   ; else do this
+                                   (exec "formatBlock"
+                                         (str "<" (:default-paragraph-separator settings) ">"))
                                    (when (= "<br>" (.-innerHTML ed-ele))
-                                     (set! (.-innerHTML ed-ele) ""))))))
-    )
+                                     (set! (.-innerHTML ed-ele) "")))))))
   (add-text! "the-editor" "This is the editor."))
 
-; Handle the layout.
-
-(defn toolbar-area
-  []
-  (let [toolbar-div [:div {:class "clich-toolbar" :id "the-toolbar"}]]
-    toolbar-div))
-
-(defn content-area []
-  (let [editor-div [:div {:class "clich-editor" :id "the-editor"}]]
-    editor-div))
-
 (defn clich-editor
-  [show-toolbar]
+  "Lay out the editor and, possibly, the toolbar."
+  [settings]
   [:div {:class "clich-container"}
-   (when show-toolbar
-   [:div {:class "clich-toolbar" :id "the-toolbar"}])
-   [:div {:class "clich-editor" :id "the-editor"}]])
-   ;(when show-toolbar
-   ;  (toolbar-area))
-   ;(content-area)])
+   (when (:show-toolbar settings)
+     [:div {:class (:toolbar-div-class settings) :id (:toolbar-div-id settings)}])
+   [:div {:class (:editor-div-class settings) :id (:editor-div-id settings)}]])
 
 ;;;
-;;; The demo page.
+;;; The demo page and settings.
 ;;;
 
-(def settings {:default-paragraph-separator "div"
+(def settings {:show-toolbar                true
+               :default-paragraph-separator "p"
                :style-with-css              false
-               :on-change                   (fn [html] (log "saw a change"))})
+               :on-change                   (fn [html] (log "saw a change"))
+               :toolbar-div-id              "the-toolbar"
+               :toolbar-div-class           "clich-toolbar"
+               :editor-div-id               "the-editor"
+               :editor-div-class            "clich-editor"})
 ;               :on-change (fn [html] (add-html ""
 ;               set! (.-innerHTML (by-id "text-output-div") )))})
 
-(defn demo-page []
-  [:main ;{:class "demo-content"}
+(defn demo-page
+  "Build and return the demo page markup."
+  []
+  [:main
    [:header
     [:h2 "Welcome to Clich"]
     [:h3 "A Rich Text Editor written in ClojureScript"]
     [:h4 "This demo is written using Reagent"]]
-   ;[:div {:class "editor-div"}
-    [:div {:class "editor-container"}
-     (clich-editor true)]
-    ;]
+   [:div {:class "editor-container"}
+    (clich-editor settings)]
    [:div {:class "text-output-div"}
     [:h3 "Text output:"]
     [:div {:id "text-output"}]]
@@ -198,10 +182,13 @@
      [:button {:class "demo-button"} "Button 1"]
      [:button {:class "demo-button"} "Button 2"]]]])
 
-;; -------------------------
-;; Initialize app
+;;
+;; Initialize the app.
+;;
 
-(defn mount-root []
+(defn mount-root
+  "Start 'er up!"
+  []
   ; Render the page so we have some DOM to work with.
   (r/render [demo-page] (.getElementById js/document "app"))
   ; Now that we have some DOM, initialize the editor.
