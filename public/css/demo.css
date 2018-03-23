@@ -48,7 +48,6 @@ header {
 
 .editor-container {
     flex: 1;
-    border: 5px solid #333333;
     background: yellow;
     display: flex;
     flex-direction: column;
