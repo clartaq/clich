@@ -1,0 +1,75 @@
+html {
+    font-size: 1em;
+}
+
+body {
+  font-family: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.0em;
+  color: #333;
+  line-height: 1.5em;
+}
+
+h1, h2, h3 {
+  color: #000;
+}
+
+h1 {
+  font-size: 2.5em
+}
+
+h2 {
+  font-size: 2em
+}
+
+h3 {
+  font-size: 1.5em
+}
+
+a {
+  text-decoration: none;
+  color: #09f;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 70ch;
+}
+
+header {
+    background: tomato;
+}
+
+.editor-container {
+    flex: 1;
+    border: 5px solid #333333;
+    background: yellow;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    background: lightgreen;
+}
+
+.demo-button-bar {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.demo-button {
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: lightcyan;
+    cursor: pointer;
+    vertical-align: bottom;
+    border        : 1px solid rgb(128,128,128);
+    border-radius : 4px;
+}

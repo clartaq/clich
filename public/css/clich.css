@@ -1,0 +1,41 @@
+/*
+** Styles for the divs in the clich editor.
+ */
+
+.clich-container {
+    /* Make this container fill all remaining space in it's parent. */
+    flex: 1;
+    /* Put the children toolbar and editor in a column. */
+    display: flex;
+    flex-direction: column;
+}
+
+.clich-toolbar {
+    background-color: #FFF;
+    /* Put the child buttons in a row. */
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.clich-toolbar-button {
+    font-size: 0.9em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    vertical-align: bottom;
+}
+
+.clich-toolbar-button:active {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.clich-editor {
+    background-color: pink;
+    flex-grow: 1;
+}
+
+.clich-editor:focus {
+   /* border: 1px solid rgb(128, 128, 128);*/
+}

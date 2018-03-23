@@ -1,0 +1,14 @@
+syntax: glob
+target/**
+resources/public/db/**
+*.jar
+*.xml
+.lein-*
+.nrepl-port
+.gitignore
+.git/**
+*.iml
+figwheel_server.log
+public/js/app.js
+public/js/out/**
+research/**
