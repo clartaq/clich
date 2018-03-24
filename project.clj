@@ -1,6 +1,6 @@
-(defproject clich "0.1.0-SNAPSHOT"
+(defproject clich "0.1.0"
   :description "Clich is a demo of a simple Rich Text Editor written in ClojureScript"
-  :url "http://example.com/FIXME"
+  :url "https://bitbucket.org/David_Clark/clich"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
 
