@@ -1,6 +1,6 @@
 # Clich #
 
-Clich is a very simple, small, in-browser [Rich Text](https://en.wikipedia.org/wiki/Rich_Text_Format) Editor written in [ClojureScript](https://clojurescript.org).
+[Clich](https://bitbucket.org/David_Clark/clich) is a very simple, small, in-browser [Rich Text](https://en.wikipedia.org/wiki/Rich_Text_Format) Editor written in [ClojureScript](https://clojurescript.org).
 
 ### Why? ###
 
