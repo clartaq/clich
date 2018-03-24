@@ -158,6 +158,21 @@
 ;;; The demo page and settings.
 ;;;
 
+;; Demo utilities.
+;;
+
+(defn add-html!
+  [id html]
+  (set! (.-innerHTML (by-id id)) html))
+
+(defn add-text!
+  [id txt]
+  (set! (.-textContent (by-id id)) txt))
+
+;;
+;; Settings for the demo.
+;;
+
 (def demo-settings {:text-output-div-id "text-output"
                     :html-output-div-id "html-output"})
 
@@ -173,17 +188,6 @@
                                                  (add-text! (:html-output-div-id demo-settings) html))})
 
 ;;
-;; Demo utilities.
-;;
-
-(defn add-html!
-  [id html]
-  (set! (.-innerHTML (by-id id)) html))
-
-(defn add-text!
-  [id txt]
-  (set! (.-textContent (by-id id)) txt))
-
 (defn demo-page
   "Build and return the demo page markup."
   []
