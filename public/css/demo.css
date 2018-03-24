@@ -1,3 +1,7 @@
+/*
+** Styles for the clich editor demo.
+ */
+
 html {
     font-size: 1em;
 }
@@ -10,8 +14,8 @@ body {
   line-height: 1.5em;
 }
 
-h1, h2, h3 {
-  color: #000;
+h1, h2 {
+  color: black;
 }
 
 h1 {
@@ -22,13 +26,9 @@ h2 {
   font-size: 2em
 }
 
-h3 {
-  font-size: 1.5em
-}
-
 a {
   text-decoration: none;
-  color: #09f;
+  color: dodgerblue;
 }
 
 a:hover {
@@ -40,10 +40,6 @@ main {
     flex-direction: column;
     min-height: 100vh;
     max-width: 70ch;
-}
-
-header {
-    /*background: tomato;*/
 }
 
 .editor-container {

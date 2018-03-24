@@ -1,5 +1,5 @@
 /*
-** Styles for the divs in the clich editor.
+** Styles for elements in the clich editor.
  */
 
 .clich-container {
@@ -11,7 +11,6 @@
 }
 
 .clich-toolbar {
-    /* background-color: #FFF;*/
     /* Put the child buttons in a row. */
     display: flex;
     flex-direction: row;
@@ -37,7 +36,6 @@
 }
 
 .clich-editor {
-    /* background-color: pink;*/
     padding-left: 5px;
     padding-right: 5px;
     flex-grow: 1;
